@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "vVQWerAubK1Ro5yQKFlItOygwpk/KsM1BdeCr2faa7U=",
+  "Source": "ContainerRegistry",
+  "BasePath": "_content/ContainerRegistry",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

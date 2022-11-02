@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainerRegistry", "src\ContainerRegistry\ContainerRegistry.csproj", "{92E0BBDC-AF76-4329-AF12-E2293D0BEC83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainerRegistry.Core", "src\ContainerRegistry.Core\ContainerRegistry.Core.csproj", "{B25D4F53-DEC2-424C-9FC7-C2332A224DCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainerRegistry.Aliyun", "src\ContainerRegistry.Aliyun\ContainerRegistry.Aliyun.csproj", "{D73ED30C-9307-4EDB-967B-B0F991F34094}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainerRegistry.Database.PostgreSql", "src\ContainerRegistry.Database.PostgreSql\ContainerRegistry.Database.PostgreSql.csproj", "{000044FA-AA25-4E6D-8488-362E652A2332}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{92E0BBDC-AF76-4329-AF12-E2293D0BEC83} = {0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}
+		{B25D4F53-DEC2-424C-9FC7-C2332A224DCE} = {0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}
+		{D73ED30C-9307-4EDB-967B-B0F991F34094} = {0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}
+		{000044FA-AA25-4E6D-8488-362E652A2332} = {0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92E0BBDC-AF76-4329-AF12-E2293D0BEC83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92E0BBDC-AF76-4329-AF12-E2293D0BEC83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92E0BBDC-AF76-4329-AF12-E2293D0BEC83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92E0BBDC-AF76-4329-AF12-E2293D0BEC83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B25D4F53-DEC2-424C-9FC7-C2332A224DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B25D4F53-DEC2-424C-9FC7-C2332A224DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B25D4F53-DEC2-424C-9FC7-C2332A224DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B25D4F53-DEC2-424C-9FC7-C2332A224DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D73ED30C-9307-4EDB-967B-B0F991F34094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D73ED30C-9307-4EDB-967B-B0F991F34094}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D73ED30C-9307-4EDB-967B-B0F991F34094}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D73ED30C-9307-4EDB-967B-B0F991F34094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{000044FA-AA25-4E6D-8488-362E652A2332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{000044FA-AA25-4E6D-8488-362E652A2332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{000044FA-AA25-4E6D-8488-362E652A2332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{000044FA-AA25-4E6D-8488-362E652A2332}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
