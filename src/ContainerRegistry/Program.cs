@@ -36,18 +36,18 @@ app.MapPatch(" /v2/{name}/blobs/uploads/{uuid}",
         fs.Seek(long.Parse(start), SeekOrigin.Begin);
         await context.Request.Body.CopyToAsync(fs);
         context.Response.Headers.Add("range", $"0-{fs.Position - 1}");
-        
-        context.Response.Headers.Add("docker-upload-uuid",uuid);
+
+        context.Response.Headers.Add("docker-upload-uuid", uuid);
         context.Response.Headers.Add("location", $"/v2/{name}/blobs/uploads/{uuid}");
-        context.Response.Headers.Add("content-length","0");
-        context.Response.Headers.Add("docker-distribution-api-version","registry/2.0");
+        context.Response.Headers.Add("content-length", "0");
+        context.Response.Headers.Add("docker-distribution-api-version", "registry/2.0");
         Results.Accepted();
     });
 
 app.MapPut(" /v2/{name}/blobs/uploads/{uuid}", async (string name, string uuid, HttpContext context) =>
 {
     var length = context.Request.Headers["content-length"].ToString();
-    if (length!="0")
+    if (length != "0")
     {
         var ranges = context.Request.Headers["content-range"].ToString().Split("-");
         await using var fs = File.OpenWrite(uuid);
@@ -62,6 +62,5 @@ app.MapPut(" /v2/{name}/blobs/uploads/{uuid}", async (string name, string uuid, 
     context.Response.Headers.Add("docker-content-digest", rawDigest);
     Results.Created($"/v2/{name}/blobs/{digest}", string.Empty);
 });
-
 
 app.Run();
