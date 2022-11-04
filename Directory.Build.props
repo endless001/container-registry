@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <MicrosoftAspNetCorePackageVersion>7.0.0-rc.2</MicrosoftAspNetCorePackageVersion>
+    <MicrosoftEntityFrameworkCorePackageVersion>7.0.0-rc.2</MicrosoftEntityFrameworkCorePackageVersion>
+    <MicrosoftExtensionsPackageVersion>7.0.0-rc.2</MicrosoftExtensionsPackageVersion>
+  </PropertyGroup>
+</Project>
