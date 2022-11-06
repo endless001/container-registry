@@ -10,4 +10,8 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(MicrosoftEntityFrameworkCorePackageVersion)" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ContainerRegistry.Core\ContainerRegistry.Core.csproj" />
+    </ItemGroup>
+
 </Project>

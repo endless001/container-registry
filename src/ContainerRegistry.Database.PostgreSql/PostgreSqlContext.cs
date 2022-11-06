@@ -1,6 +1,11 @@
-﻿namespace ContainerRegistry.Database.PostgreSql;
+﻿using ContainerRegistry.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
-public class PostgreSqlContext
+namespace ContainerRegistry.Database.PostgreSql;
+
+public class PostgreSqlContext : AbstractContext<PostgreSqlContext>
 {
-    
+    public PostgreSqlContext(DbContextOptions<PostgreSqlContext> options) : base(options)
+    {
+    }
 }

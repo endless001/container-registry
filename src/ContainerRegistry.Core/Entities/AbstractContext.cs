@@ -8,7 +8,6 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
         : base(options)
     {
     }
-
     public DbSet<Organization> Organizations { get; set; }
     public DbSet<Repository> Repositories { get; set; }
     public DbSet<RepositoryTag> RepositoryTags { get; set; }

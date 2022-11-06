@@ -4,6 +4,7 @@ namespace ContainerRegistry.Core.Services;
 
 public class UserService : IUserService
 {
+    
     public Task<User> FindAsync(int id, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

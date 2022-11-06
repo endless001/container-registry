@@ -1,7 +1,8 @@
-﻿namespace ContainerRegistry.Core.Entities;
+namespace ContainerRegistry.Core.Entities;
 
-public class RepositoryTag
+public class RepositoryType
 {
     public int Id { get; set; }
+
     public string Name { get; set; }
 }
