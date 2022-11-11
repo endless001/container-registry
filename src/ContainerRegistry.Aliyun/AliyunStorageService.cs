@@ -1,4 +1,7 @@
-﻿using Aliyun.OSS;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Net;
+using Aliyun.OSS;
 using ContainerRegistry.Core.Storage;
 using Microsoft.Extensions.Options;
 
@@ -26,17 +29,14 @@ public class AliyunStorageService : IStorageService
 
     public async Task<Stream> GetAsync(string path, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var ossObject = await Task.Factory.FromAsync(_client.BeginGetObject, _client.EndGetObject, _bucket,
-                PrepareKey(path), null);
+        var ossObject = await Task.Factory.FromAsync(_client.BeginGetObject, _client.EndGetObject, _bucket,
+            PrepareKey(path), null);
 
-            return ossObject.ResponseStream;
-        }
-        catch (Exception)
+        return ossObject.HttpStatusCode switch
         {
-            throw;
-        }
+            HttpStatusCode.OK => ossObject.Content,
+            _ => throw new NoNullAllowedException()
+        };
     }
 
     public Task<Uri> GetDownloadUriAsync(string path, CancellationToken cancellationToken = default)
@@ -57,9 +57,16 @@ public class AliyunStorageService : IStorageService
             _bucket, PrepareKey(path), content, metadata);
         return putResult.HttpStatusCode switch
         {
-            System.Net.HttpStatusCode.OK => StoragePutResult.Success,
+            HttpStatusCode.OK => StoragePutResult.Success,
             _ => StoragePutResult.Success
         };
+    }
+    public async Task CopyAsync(string source, string target, CancellationToken cancellationToken = default)
+    {
+        var request = new CopyObjectRequest(_bucket, PrepareKey(source), _bucket, PrepareKey(target));
+
+        var result = _client.CopyObject(request);
+
     }
 
     public Task DeleteAsync(string path, CancellationToken cancellationToken = default)

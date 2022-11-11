@@ -10,6 +10,7 @@ public class User
     public string Token { get; set; }
     public TimeSpan Refresh { get; set; }
     public string Expiry { get; set; }
+    public List<OrganizationMember> OrganizationMembers { get; set; }
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
 }

@@ -14,7 +14,6 @@ public static class PostgreSqlApplicationExtensions
         builder.Services.AddDatabaseContextProvider<PostgreSqlContext>("PostgreSql", (provider, options) =>
         {
             var databaseOptions = provider.GetRequiredService<IOptionsSnapshot<DatabaseOptions>>();
-
             options.UseNpgsql(databaseOptions.Value.ConnectionString);
         });
 

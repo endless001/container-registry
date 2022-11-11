@@ -11,6 +11,7 @@ public interface IStorageService
         string contentType,
         CancellationToken cancellationToken = default);
 
+    Task CopyAsync(string source, string target, CancellationToken cancellationToken = default);
     Task DeleteAsync(string path, CancellationToken cancellationToken = default);
 }
 

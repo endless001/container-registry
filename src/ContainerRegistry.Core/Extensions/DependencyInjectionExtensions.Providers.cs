@@ -11,10 +11,7 @@ public static partial class DependencyInjectionExtensions
 {
     private static readonly string DatabaseTypeKey = $"{nameof(DatabaseOptions.Type)}";
     private static readonly string StorageTypeKey = $"{nameof(StorageOptions.Type)}";
-    public static bool HasDatabaseType(this IConfiguration config, string value)
-    {
-        return config[DatabaseTypeKey].Equals(value, StringComparison.OrdinalIgnoreCase);
-    }
+
 
     public static IServiceCollection AddDatabaseContextProvider<TContext>(
         this IServiceCollection services,
@@ -26,11 +23,7 @@ public static partial class DependencyInjectionExtensions
 
         services.AddDbContext<TContext>(configureContext);
         services.AddProvider<IContext>((provider, config) =>
-        {
-            if (!config.HasDatabaseType(databaseType)) return null;
-
-            return provider.GetRequiredService<TContext>();
-        });
+            !config.HasDatabaseType(databaseType) ? null : provider.GetRequiredService<TContext>());
         return services;
     }
 
@@ -48,7 +41,10 @@ public static partial class DependencyInjectionExtensions
     {
         return config[StorageTypeKey].Equals(value, StringComparison.OrdinalIgnoreCase);
     }
-
+    public static bool HasDatabaseType(this IConfiguration config, string value)
+    {
+        return config[DatabaseTypeKey].Equals(value, StringComparison.OrdinalIgnoreCase);
+    }
     public static TService GetServiceFromProviders<TService>(IServiceProvider services)
         where TService : class
     {

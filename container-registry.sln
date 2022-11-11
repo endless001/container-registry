@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainerRegistry.Protocol", "src\ContainerRegistry.Protocol\ContainerRegistry.Protocol.csproj", "{B86B6136-F3B3-43FC-866C-92A3E2E4C5E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,7 @@ Global
 		{B25D4F53-DEC2-424C-9FC7-C2332A224DCE} = {0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}
 		{D73ED30C-9307-4EDB-967B-B0F991F34094} = {0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}
 		{000044FA-AA25-4E6D-8488-362E652A2332} = {0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}
+		{B86B6136-F3B3-43FC-866C-92A3E2E4C5E2} = {0FF4DEFA-937B-45E9-8A46-6BEBE3896EBD}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{92E0BBDC-AF76-4329-AF12-E2293D0BEC83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -50,5 +53,9 @@ Global
 		{000044FA-AA25-4E6D-8488-362E652A2332}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{000044FA-AA25-4E6D-8488-362E652A2332}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{000044FA-AA25-4E6D-8488-362E652A2332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B86B6136-F3B3-43FC-866C-92A3E2E4C5E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B86B6136-F3B3-43FC-866C-92A3E2E4C5E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B86B6136-F3B3-43FC-866C-92A3E2E4C5E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B86B6136-F3B3-43FC-866C-92A3E2E4C5E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

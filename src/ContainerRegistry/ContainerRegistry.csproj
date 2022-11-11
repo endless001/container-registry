@@ -7,7 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.14" />
+        <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="6.0.14" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(MicrosoftEntityFrameworkCorePackageVersion)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ContainerRegistry.Aliyun\ContainerRegistry.Aliyun.csproj" />
+      <ProjectReference Include="..\ContainerRegistry.Core\ContainerRegistry.Core.csproj" />
+      <ProjectReference Include="..\ContainerRegistry.Database.PostgreSql\ContainerRegistry.Database.PostgreSql.csproj" />
     </ItemGroup>
 
 </Project>

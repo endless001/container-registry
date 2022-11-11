@@ -1,4 +1,7 @@
 ﻿using Aliyun.OSS;
+using ContainerRegistry.Core;
+using ContainerRegistry.Core.Configuration;
+using ContainerRegistry.Core.Extensions;
 using ContainerRegistry.Core.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -8,18 +11,29 @@ namespace ContainerRegistry.Aliyun;
 
 public static class AliyunApplicationExtensions
 {
-    public static IServiceCollection AddAliyunOssStorage(this IServiceCollection services)
+    public static ContainerRegistryBuilder AddAliyunOssStorage(this ContainerRegistryBuilder builder)
     {
-        services.AddTransient<AliyunStorageService>();
-        services.TryAddTransient<IStorageService>(provider => provider.GetRequiredService<AliyunStorageService>());
+        builder.Services.AddContainerRegistryOptions<AliyunStorageOptions>(nameof(ContainerRegistryOptions.Storage));
+        builder.Services.AddTransient<AliyunStorageService>();
+        builder.Services.TryAddTransient<IStorageService>(provider =>
+            provider.GetRequiredService<AliyunStorageService>());
 
-        services.AddSingleton(provider =>
+        builder.Services.AddSingleton(provider =>
         {
             var options = provider.GetRequiredService<IOptions<AliyunStorageOptions>>().Value;
 
             return new OssClient(options.Endpoint, options.AccessKey, options.AccessKeySecret);
         });
+        builder.Services.AddProvider<IStorageService>((provider, config) =>
+            !config.HasStorageType("AliyunOss") ? null : provider.GetRequiredService<AliyunStorageService>());
+        return builder;
+    }
 
-        return services;
+    public static ContainerRegistryBuilder AddAliyunOssStorage(this ContainerRegistryBuilder builder,
+        Action<AliyunStorageOptions> configure)
+    {
+        builder.AddAliyunOssStorage();
+        builder.Services.Configure(configure);
+        return builder;
     }
 }

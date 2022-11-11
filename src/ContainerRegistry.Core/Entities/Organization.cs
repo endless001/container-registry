@@ -8,8 +8,9 @@ public class Organization
     public string Location { get; set; }
     public string Gravatar { get; set; }
     public string Email { get; set; }
-    public List<User> Members { get; set; }
+    public List<OrganizationMember> OrganizationMembers { get; set; }
     public List<Repository> Repositories { get; set; }
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
 }
+
