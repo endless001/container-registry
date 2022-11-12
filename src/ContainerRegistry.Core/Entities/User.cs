@@ -8,8 +8,8 @@ public class User
     public string Email { get; set; }
     public string Avatar { get; set; }
     public string Token { get; set; }
-    public TimeSpan Refresh { get; set; }
-    public string Expiry { get; set; }
+    public string Refresh { get; set; }
+    public TimeSpan? Expiry { get; set; }
     public List<OrganizationMember> OrganizationMembers { get; set; }
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }

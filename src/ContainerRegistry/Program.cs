@@ -20,8 +20,10 @@ builder.Services.AddAuthentication(options =>
 }).AddCookie(options =>
 {
     options.LoginPath = "/login";
-}).AddGitHub(options =>
+}).AddMicrosoftAccount(options =>
 {
+    options.AuthorizationEndpoint = "https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize";
+    options.TokenEndpoint = "https://login.microsoftonline.com/consumers/oauth2/v2.0/token";
     options.ClientId = gitHubOptions.ClientId;
     options.ClientSecret = gitHubOptions.ClientSecret;
     options.CallbackPath = gitHubOptions.CallbackPath;

@@ -50,5 +50,6 @@ public static partial class DependencyInjectionExtensions
     {
         services.TryAddTransient<IRegistryStorageService, RegistryStorageService>();
         services.TryAddTransient<IUserService, UserService>();
+        services.TryAddTransient<IOrganizationService, OrganizationService>();
     }
 }

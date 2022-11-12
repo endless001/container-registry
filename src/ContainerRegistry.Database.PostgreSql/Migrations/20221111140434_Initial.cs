@@ -51,12 +51,12 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                     userid = table.Column<int>(name: "user_id", type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     username = table.Column<string>(name: "user_name", type: "text", nullable: false),
-                    usersecret = table.Column<string>(name: "user_secret", type: "text", nullable: false),
+                    usersecret = table.Column<string>(name: "user_secret", type: "text", nullable: true),
                     useremail = table.Column<string>(name: "user_email", type: "text", nullable: false),
                     useravatar = table.Column<string>(name: "user_avatar", type: "text", nullable: false),
                     usertoken = table.Column<string>(name: "user_token", type: "text", nullable: false),
-                    userrefresh = table.Column<TimeSpan>(name: "user_refresh", type: "interval", nullable: false),
-                    userexpiry = table.Column<string>(name: "user_expiry", type: "text", nullable: false),
+                    userrefresh = table.Column<string>(name: "user_refresh", type: "text", nullable: true),
+                    userexpiry = table.Column<TimeSpan>(name: "user_expiry", type: "interval", nullable: true),
                     usercreated = table.Column<DateTime>(name: "user_created", type: "timestamp with time zone", nullable: false),
                     userupdated = table.Column<DateTime>(name: "user_updated", type: "timestamp with time zone", nullable: false)
                 },

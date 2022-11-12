@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace ContainerRegistry.Controllers;
 
 [Route("v2")]
-[ApiController] 
 [Authorize]
 public class RegistryController : ControllerBase
 {

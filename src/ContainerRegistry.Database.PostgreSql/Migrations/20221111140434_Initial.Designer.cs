@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ContainerRegistry.Database.PostgreSql.Migrations
 {
     [DbContext(typeof(PostgreSqlContext))]
-    [Migration("20221111065114_Initial")]
+    [Migration("20221111140434_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -206,17 +206,15 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                         .HasColumnType("text")
                         .HasColumnName("user_email");
 
-                    b.Property<string>("Expiry")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<TimeSpan?>("Expiry")
+                        .HasColumnType("interval")
                         .HasColumnName("user_expiry");
 
-                    b.Property<TimeSpan>("Refresh")
-                        .HasColumnType("interval")
+                    b.Property<string>("Refresh")
+                        .HasColumnType("text")
                         .HasColumnName("user_refresh");
 
                     b.Property<string>("Secret")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("user_secret");
 

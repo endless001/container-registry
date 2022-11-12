@@ -6,15 +6,14 @@ namespace ContainerRegistry.Core.Services;
 public class UserService : IUserService
 {
     private readonly IContext _context;
-
     public UserService(IContext context)
     {
         _context = context;
     }
 
-    public Task<User> FindAsync(int id, CancellationToken cancellationToken)
+    public ValueTask<User> FindAsync(int id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return _context.Users.FindAsync(id);
     }
 
     public async Task SynchronizeUserAsync(string accessToken)
@@ -31,11 +30,8 @@ public class UserService : IUserService
             user = new User
             {
                 Token = accessToken,
-                Secret = "lq",
                 UserName = identity.UserName,
                 Email = identity.Email,
-                Expiry = "lq",
-                Refresh = TimeSpan.FromMinutes(1),
                 Avatar = identity.Avatar,
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
@@ -49,7 +45,7 @@ public class UserService : IUserService
             user.Email = identity.Email;
             user.Avatar = identity.Avatar;
             user.Updated = DateTime.UtcNow;
-
+            
             _context.Users.Update(user);
         }
 

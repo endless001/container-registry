@@ -39,7 +39,7 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
 
         builder.Property(t => t.Id)
             .HasColumnName("repository_type_id");
-        
+
         builder.Property(t => t.Name)
             .HasColumnName("repository_type_name");
     }
@@ -69,10 +69,10 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
         builder.ToTable("organization_members");
 
         builder.HasKey(om => new { om.MemberId, om.OrganizationId });
-        
+
         builder.Property(om => om.MemberId)
             .HasColumnName("member_id");
-        
+
         builder.Property(om => om.OrganizationId)
             .HasColumnName("organization_Id");
 
@@ -98,7 +98,8 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
             .HasColumnName("user_name");
 
         builder.Property(u => u.Secret)
-            .HasColumnName("user_secret");
+            .HasColumnName("user_secret")
+            .IsRequired(false);
 
         builder.Property(u => u.Email)
             .HasColumnName("user_email");
@@ -110,10 +111,12 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
             .HasColumnName("user_token");
 
         builder.Property(u => u.Refresh)
-            .HasColumnName("user_refresh");
+            .HasColumnName("user_refresh")
+            .IsRequired(false);
 
         builder.Property(u => u.Expiry)
-            .HasColumnName("user_expiry");
+            .HasColumnName("user_expiry")
+            .IsRequired(false);
 
         builder.Property(u => u.Created)
             .HasColumnName("user_created");
@@ -140,10 +143,10 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
 
         builder.Property(r => r.OrganizationId)
             .HasColumnName("organization_id");
-        
+
         builder.Property(r => r.RepositoryTypeId)
             .HasColumnName("repository_type_id");
-        
+
         builder.HasOne(r => r.Organization)
             .WithMany(d => d.Repositories)
             .HasForeignKey(l => l.OrganizationId);

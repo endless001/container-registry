@@ -203,17 +203,15 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                         .HasColumnType("text")
                         .HasColumnName("user_email");
 
-                    b.Property<string>("Expiry")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<TimeSpan?>("Expiry")
+                        .HasColumnType("interval")
                         .HasColumnName("user_expiry");
 
-                    b.Property<TimeSpan>("Refresh")
-                        .HasColumnType("interval")
+                    b.Property<string>("Refresh")
+                        .HasColumnType("text")
                         .HasColumnName("user_refresh");
 
                     b.Property<string>("Secret")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("user_secret");
 
