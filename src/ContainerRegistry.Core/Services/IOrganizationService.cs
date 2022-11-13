@@ -5,6 +5,7 @@ namespace ContainerRegistry.Core.Services;
 
 public interface IOrganizationService
 {
-    Task<bool> ExistsAsync(string @namespace, CancellationToken cancellationToken);
+    ValueTask<bool> ExistsAsync(string @namespace, CancellationToken cancellationToken);
     Task<PaginatedItems<Organization>> GetAsync(string @namespace, int pageSize, int pageIndex);
+    ValueTask<bool> CreateAsync(Organization organization, CancellationToken cancellationToken);
 }
