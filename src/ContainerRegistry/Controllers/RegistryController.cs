@@ -1,25 +1,21 @@
 ﻿using ContainerRegistry.Core.Storage;
 using ContainerRegistry.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContainerRegistry.Controllers;
 
 [Route("v2")]
-[Authorize]
 public class RegistryController : ControllerBase
 {
     private readonly IRegistryStorageService _registryStorage;
 
-    public RegistryController(IRegistryStorageService registryStorage)
-    {
-        _registryStorage = registryStorage;
-    }
-
     [HttpGet]
     public IActionResult Get()
-    { 
-        return Ok();
+    {
+        HttpContext.Response.Headers.Add("WWW-Authenticate",
+            "Bearer realm=\"http://apps.io:5000/connect/token\",service=\"registry.docker.io\",scope=\"repository:samalba/my-app:pull,push\"");
+        HttpContext.Response.Headers.Add("Docker-Distribution-API-Version", "registry/2.0");
+        return Unauthorized();
     }
 
     [HttpHead("{name}/blobs/{rawDigest}")]
@@ -120,13 +116,13 @@ public class RegistryController : ControllerBase
         try
         {
             var manifest = await _registryStorage.GetManifestAsync(name, hash, new CancellationToken());
-        
+
             Response.Headers.Add("docker-content-digest", $"sha256:{manifest.Hash}");
             Response.Headers.Add("content-type", manifest.MediaType);
             Response.Headers.Add("content-length", manifest.Size.ToString());
             await manifest.Content.CopyToAsync(Response.Body);
 
-            return Ok(); 
+            return Ok();
         }
         catch
         {

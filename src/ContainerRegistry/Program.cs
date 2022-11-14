@@ -3,6 +3,7 @@ using ContainerRegistry.Aliyun;
 using ContainerRegistry.Core.Extensions;
 using ContainerRegistry.Database.PostgreSql;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,13 @@ builder.Services.AddAuthentication(options =>
     options.ClientSecret = gitHubOptions.ClientSecret;
     options.CallbackPath = gitHubOptions.CallbackPath;
     options.SaveTokens = true;
+    
+}).AddJwtBearer(options =>
+{
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = ctx => Task.CompletedTask
+    };
 });
 
 var app = builder.Build();

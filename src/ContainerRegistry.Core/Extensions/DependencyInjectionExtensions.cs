@@ -41,15 +41,19 @@ public static partial class DependencyInjectionExtensions
 
         return services;
     }
+
     private static void AddConfiguration(this IServiceCollection services)
     {
         services.AddContainerRegistryOptions<ContainerRegistryOptions>();
         services.AddContainerRegistryOptions<DatabaseOptions>(nameof(ContainerRegistryOptions.Database));
+        services.AddContainerRegistryOptions<JwtBearerOptions>(nameof(ContainerRegistryOptions.JwtBearer));
     }
+
     private static void AddContainerRegistryServices(this IServiceCollection services)
     {
         services.TryAddTransient<IRegistryStorageService, RegistryStorageService>();
         services.TryAddTransient<IUserService, UserService>();
         services.TryAddTransient<IOrganizationService, OrganizationService>();
+        services.TryAddTransient<IConnectService, ConnectService>();
     }
 }

@@ -4,4 +4,5 @@ public class ContainerRegistryOptions
 {
     public DatabaseOptions Database { get; set; }
     public StorageOptions Storage { get; set; }
+    public JwtBearerOptions JwtBearer { get; set; }
 }
