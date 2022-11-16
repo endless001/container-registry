@@ -1,10 +1,12 @@
 ﻿using ContainerRegistry.Core.Storage;
 using ContainerRegistry.Extensions;
+using ContainerRegistry.Filter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContainerRegistry.Controllers;
 
-[Route("v2")]
+[Route("v2")] 
+[TypeFilter(typeof(AccessActionFilter))]
 public class RegistryController : ControllerBase
 {
     private readonly IRegistryStorageService _registryStorage;
@@ -12,10 +14,7 @@ public class RegistryController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        HttpContext.Response.Headers.Add("WWW-Authenticate",
-            "Bearer realm=\"http://apps.io:5000/connect/token\",service=\"registry.docker.io\",scope=\"repository:samalba/my-app:pull,push\"");
-        HttpContext.Response.Headers.Add("Docker-Distribution-API-Version", "registry/2.0");
-        return Unauthorized();
+        return Ok();
     }
 
     [HttpHead("{name}/blobs/{rawDigest}")]

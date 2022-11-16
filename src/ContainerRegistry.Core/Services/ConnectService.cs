@@ -17,7 +17,7 @@ public class ConnectService : IConnectService
         _options = options.Value;
     }
 
-    public async Task<Token> CreateTokenAsync(CancellationToken cancellationToken)
+    public async Task<Tokens> CreateTokenAsync(CancellationToken cancellationToken)
     {
         var issuer = _options.Issuer;
         var signKey = _options.SignKey;
@@ -40,9 +40,9 @@ public class ConnectService : IConnectService
         var tokenHandler = new JwtSecurityTokenHandler();
         var securityToken = tokenHandler.CreateToken(tokenDescriptor);
         var token = tokenHandler.WriteToken(securityToken);
-        return new Token
+        return new Tokens
         {
-            AccessToken = token
+            Token = token
         };
     }
 }

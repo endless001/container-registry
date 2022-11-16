@@ -27,12 +27,11 @@ public class ConnectController : ControllerBase
             var credentials = Encoding.UTF8.GetString(Convert.FromBase64String(basic)).Split(':');
             var userName = credentials[0];
             var password = credentials[1];
-
-            if (!await _userService.ValidateAsync(userName, password))
+            if (!await _userService.ValidateAsync(userName,password))
             {
                 return Unauthorized("invalid auth credentials");
             }
-
+            
             var accesses = new List<string>();
             var token = await _connectService.CreateTokenAsync(cancellationToken);
             return Ok(token);

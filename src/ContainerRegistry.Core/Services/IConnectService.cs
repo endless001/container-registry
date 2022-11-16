@@ -4,5 +4,5 @@ namespace ContainerRegistry.Core.Services;
 
 public interface IConnectService
 {
-    Task<Token> CreateTokenAsync(CancellationToken cancellationToken);
+    Task<Tokens> CreateTokenAsync(CancellationToken cancellationToken);
 }
