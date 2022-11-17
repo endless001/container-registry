@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using ContainerRegistry.Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace ContainerRegistry.Controllers;
 
@@ -19,8 +20,17 @@ public class ConnectController : ControllerBase
     [HttpGet("token")]
     public async Task<IActionResult> Token(CancellationToken cancellationToken)
     {
-        var authorization = Request.Headers["Authorization"].ToString();
-
+        var authorization = Request.Headers[HeaderNames.Authorization].ToString();
+        var account = Request.Query["account"].ToString();
+        var scope = Request.Query["scope"].ToString();
+        
+        if (!string.IsNullOrEmpty(scope))
+        {
+            
+        }
+        
+        
+        
         if (authorization != null && authorization.StartsWith("Basic", StringComparison.OrdinalIgnoreCase))
         {
             var basic = authorization["Basic ".Length..].Trim();
@@ -32,11 +42,10 @@ public class ConnectController : ControllerBase
                 return Unauthorized("invalid auth credentials");
             }
             
-            var accesses = new List<string>();
             var token = await _connectService.CreateTokenAsync(cancellationToken);
             return Ok(token);
         }
-
+        
         return Unauthorized("invalid auth credentials");
     }
 }

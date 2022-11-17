@@ -21,7 +21,7 @@ public class UserService : IUserService
     {
         return await _context.Users.Where(u => u.UserName == userName && u.Secret == secret).AnyAsync();
     }
-
+    
     public async Task SynchronizeUserAsync(string accessToken)
     {
         var identity = new

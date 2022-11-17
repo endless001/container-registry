@@ -1,12 +1,13 @@
 ﻿using ContainerRegistry.Core.Storage;
 using ContainerRegistry.Extensions;
-using ContainerRegistry.Filter;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContainerRegistry.Controllers;
 
-[Route("v2")] 
-[TypeFilter(typeof(AccessActionFilter))]
+[Route("v2")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class RegistryController : ControllerBase
 {
     private readonly IRegistryStorageService _registryStorage;
