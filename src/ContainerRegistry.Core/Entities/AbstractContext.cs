@@ -29,6 +29,7 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
         builder.Entity<Organization>(BuildOrganizationEntity);
         builder.Entity<RepositoryType>(BuildRepositoryTypeEntity);
         builder.Entity<RepositoryTag>(BuildRepositoryTagEntity);
+        builder.Entity<RepositoryAccess>(BuildRepositoryAccessEntity);
     }
 
     private void BuildRepositoryTypeEntity(EntityTypeBuilder<RepositoryType> builder)
@@ -196,5 +197,28 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
 
         builder.Property(o => o.Updated)
             .HasColumnName("organization_updated");
+    }
+
+    private void BuildRepositoryAccessEntity(EntityTypeBuilder<RepositoryAccess> builder)
+    {
+        builder.ToTable("repository_accesses");
+
+        builder.HasKey(r => r.Id);
+
+        builder.Property(r => r.Id)
+            .HasColumnName("access_id");
+
+        builder.Property(r => r.MemberId)
+            .HasColumnName("member_id");
+
+        builder.Property(r => r.RepositoryId)
+            .HasColumnName("repository_id");
+
+        builder.Property(r => r.Action)
+            .HasColumnName("action");
+
+        builder.HasOne(r => r.Repository)
+            .WithMany(d => d.Accesses)
+            .HasForeignKey(k => k.RepositoryId);
     }
 }

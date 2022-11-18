@@ -1,7 +1,7 @@
+using AspNet.Security.OAuth.GitHub;
 using ContainerRegistry.Core.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +21,7 @@ public class OidcController : ControllerBase
     public IActionResult Login()
     {
         return Challenge(new AuthenticationProperties { RedirectUri = Url.Action("Synchronize") },
-            MicrosoftAccountDefaults.AuthenticationScheme);
+            GitHubAuthenticationDefaults.AuthenticationScheme);
     }
 
     [HttpGet("logout")]

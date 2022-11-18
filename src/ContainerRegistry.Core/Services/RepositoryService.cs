@@ -27,4 +27,19 @@ public class RepositoryService : IRepositoryService
         var model = new PaginatedItems<Repository>(pageIndex, pageSize, totalItems, itemsOnPage);
         return model;
     }
+
+    public async ValueTask<bool> AllowAccessAsync(string account, Scope scope)
+    {
+        var repository = await _context.Repositories
+            .Include(x => x.Organization)
+            .Include(x => x.Accesses).FirstOrDefaultAsync(r =>
+                r.Name == scope.RepositoryName && r.Organization.Namespace == scope.Namespace);
+
+        if (repository.Visible == 1 && scope.Action.Equals("pull", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return repository.Accesses.Any(x => x.MemberId == 1 && x.Action == 1);
+    }
 }

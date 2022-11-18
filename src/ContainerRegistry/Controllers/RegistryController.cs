@@ -12,6 +12,11 @@ public class RegistryController : ControllerBase
 {
     private readonly IRegistryStorageService _registryStorage;
 
+    public RegistryController(IRegistryStorageService registryStorage)
+    {
+        _registryStorage = registryStorage;
+    }
+
     [HttpGet]
     public IActionResult Get()
     {

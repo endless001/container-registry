@@ -7,8 +7,10 @@ public class Repository
     public long Downloads { get; set; }
     public int OrganizationId { get; set; }
     public int RepositoryTypeId { get; set; }
+    public int Visible { get; set; }
     public Organization Organization { get; set; }
     public RepositoryType Type { get; set; }
+    public List<RepositoryAccess> Accesses { get; set; }
     public List<RepositoryTag> Tags { get; set; }
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }

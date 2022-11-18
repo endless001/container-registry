@@ -55,5 +55,6 @@ public static partial class DependencyInjectionExtensions
         services.TryAddTransient<IUserService, UserService>();
         services.TryAddTransient<IOrganizationService, OrganizationService>();
         services.TryAddTransient<IConnectService, ConnectService>();
+        services.TryAddTransient<IRepositoryService,RepositoryService>();
     }
 }
