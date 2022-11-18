@@ -1,6 +1,7 @@
 using System.Text;
 using ContainerRegistry;
 using ContainerRegistry.Aliyun;
+using ContainerRegistry.Core.Configuration;
 using ContainerRegistry.Core.Extensions;
 using ContainerRegistry.Database.PostgreSql;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,6 +17,7 @@ builder.Services.AddContainerRegistry()
     .AddPostgreSqlDatabase();
 
 var gitHubOptions = builder.Configuration.GetSection("Authentications:GitHub").Get<GitHubAuthenticationOptions>();
+var jwtBearerOptions = builder.Configuration.GetSection("JwtBearer").Get<JwtBearerOptions>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
@@ -35,13 +37,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         ValidateIssuer = true,
         ValidateAudience = false,
-        ValidIssuer = builder.Configuration["JwtBearer:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtBearer:SignKey"]))
+        ValidIssuer = jwtBearerOptions.Issuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerOptions.SignKey))
     };
-
-    var challenge =
-        $"""Bearer realm="{ builder.Configuration["Endpoint"]}   ",service="{ builder
-            .Configuration["Service"]}   " """ ;
+    var challenge = string.Format("""Bearer realm="{Endpoint}",service="{Service}" """,
+        builder.Configuration["Endpoint"],
+        builder.Configuration["Service"]);
     options.Challenge = challenge;
 });
 
