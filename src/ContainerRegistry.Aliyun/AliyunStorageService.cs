@@ -61,12 +61,10 @@ public class AliyunStorageService : IStorageService
             _ => StoragePutResult.Success
         };
     }
-    public async Task CopyAsync(string source, string target, CancellationToken cancellationToken = default)
+
+    public Task CopyAsync(string source, string target, CancellationToken cancellationToken = default)
     {
-        var request = new CopyObjectRequest(_bucket, PrepareKey(source), _bucket, PrepareKey(target));
-
-        var result = _client.CopyObject(request);
-
+        throw new NotImplementedException();
     }
 
     public Task DeleteAsync(string path, CancellationToken cancellationToken = default)

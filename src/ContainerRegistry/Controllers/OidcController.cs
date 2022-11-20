@@ -35,7 +35,9 @@ public class OidcController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Synchronize()
     {
-        var accessToken = await HttpContext.GetTokenAsync("access_token");
+        const string ACCESS_TOKEN = "access_token";
+
+        var accessToken = await HttpContext.GetTokenAsync(ACCESS_TOKEN);
         await _userService.SynchronizeUserAsync(accessToken);
         return Redirect("/");
     }

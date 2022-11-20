@@ -1,4 +1,5 @@
 ﻿using ContainerRegistry.Core.Entities;
+using ContainerRegistry.Protocol.GitHub;
 using Microsoft.EntityFrameworkCore;
 
 namespace ContainerRegistry.Core.Services;
@@ -6,10 +7,12 @@ namespace ContainerRegistry.Core.Services;
 public class UserService : IUserService
 {
     private readonly IContext _context;
+    private readonly GitHubClient _gitHubClient;
 
-    public UserService(IContext context)
+    public UserService(IContext context, GitHubClient gitHubClient)
     {
         _context = context;
+        _gitHubClient = gitHubClient;
     }
 
     public ValueTask<User> FindAsync(int id, CancellationToken cancellationToken)
@@ -21,24 +24,19 @@ public class UserService : IUserService
     {
         return await _context.Users.Where(u => u.UserName == userName && u.Secret == secret).AnyAsync();
     }
-    
+
     public async ValueTask SynchronizeUserAsync(string accessToken)
     {
-        var identity = new
-        {
-            UserName = "lq",
-            Email = "zze@live.com",
-            Avatar = "https://avatars.githubusercontent.com/u/19401853?v=4"
-        };
-        var user = await _context.Users.Where(u => u.UserName == identity.UserName).FirstOrDefaultAsync();
+        var userResponse = await _gitHubClient.GetUserAsync();
+        var user = await _context.Users.Where(u => u.UserName == userResponse.Login).FirstOrDefaultAsync();
         if (user is null)
         {
             user = new User
             {
                 Token = accessToken,
-                UserName = identity.UserName,
-                Email = identity.Email,
-                Avatar = identity.Avatar,
+                UserName = userResponse.Login,
+                Email = userResponse.Email,
+                Avatar = userResponse.Avatar,
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
             };
@@ -47,11 +45,11 @@ public class UserService : IUserService
         else
         {
             user.Token = accessToken;
-            user.UserName = identity.UserName;
-            user.Email = identity.Email;
-            user.Avatar = identity.Avatar;
+            user.UserName = userResponse.Login;
+            user.Email = userResponse.Email;
+            user.Avatar = userResponse.Avatar;
             user.Updated = DateTime.UtcNow;
-
+            
             _context.Users.Update(user);
         }
 

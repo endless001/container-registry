@@ -1,5 +1,4 @@
 ﻿using ContainerRegistry.Core.Storage;
-using ContainerRegistry.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,6 @@ namespace ContainerRegistry.Controllers;
 public class RegistryController : ControllerBase
 {
     private readonly IRegistryStorageService _registryStorage;
-
     public RegistryController(IRegistryStorageService registryStorage)
     {
         _registryStorage = registryStorage;

@@ -45,7 +45,7 @@ public class ConnectController : ControllerBase
             return Ok(token);
         }
 
-        if (!string.IsNullOrEmpty(scopeValues))
+        if (string.IsNullOrEmpty(scopeValues)) return Unauthorized("invalid auth credentials");
         {
             var scopes = scopeValues.Split(":");
             var scope = new Scope
@@ -54,7 +54,6 @@ public class ConnectController : ControllerBase
                 RepositoryName = scopes[1],
                 Action = scopes[2]
             };
-
             var allowAccess = await _repositoryService.AllowAccessAsync(account, scope);
             if (!allowAccess)
             {
@@ -64,7 +63,5 @@ public class ConnectController : ControllerBase
             var token = await _connectService.CreateTokenAsync(cancellationToken);
             return Ok(token);
         }
-
-        return Unauthorized("invalid auth credentials");
     }
 }
