@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace ContainerRegistry.Core.Configuration;
+﻿namespace ContainerRegistry.Core.Configuration;
 
 public class JwtBearerOptions
 {

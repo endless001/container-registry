@@ -40,7 +40,7 @@ public class UserService : IUserService
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
             };
-            _context.Users.AddAsync(user);
+            _context.Users.Add(user);
         }
         else
         {

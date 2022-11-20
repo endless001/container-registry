@@ -1,11 +1,11 @@
 using System.Text;
 using ContainerRegistry;
 using ContainerRegistry.Aliyun;
+using Microsoft.IdentityModel.Tokens;
 using ContainerRegistry.Core.Configuration;
 using ContainerRegistry.Core.Extensions;
 using ContainerRegistry.Database.PostgreSql;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.IdentityModel.Tokens;
 using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 var builder = WebApplication.CreateBuilder(args);
