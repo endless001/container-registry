@@ -3,11 +3,11 @@ using ContainerRegistry.Protocol.Models;
 
 namespace ContainerRegistry.Protocol.GitHub;
 
-public abstract class GitHubClient
+public class GitHubClient
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
-    protected GitHubClient(IHttpClientFactory httpClientFactory) =>
+    public GitHubClient(IHttpClientFactory httpClientFactory) =>
         _httpClientFactory = httpClientFactory;
 
     public async Task<GitHubUserResponse> GetUserAsync()

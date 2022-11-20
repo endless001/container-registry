@@ -1,10 +1,14 @@
 using ContainerRegistry.Core.Configuration;
 using ContainerRegistry.Core.Services;
 using ContainerRegistry.Core.Storage;
+using ContainerRegistry.Protocol;
+using ContainerRegistry.Protocol.GitHub;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 
 namespace ContainerRegistry.Core.Extensions;
 
@@ -19,6 +23,7 @@ public static partial class DependencyInjectionExtensions
     {
         var builder = services.AddContainerRegistryBuilder();
         services.AddContainerRegistryServices();
+        services.AddContainerRegistryClient();
         services.AddConfiguration();
         return builder;
     }
@@ -55,6 +60,22 @@ public static partial class DependencyInjectionExtensions
         services.TryAddTransient<IUserService, UserService>();
         services.TryAddTransient<IOrganizationService, OrganizationService>();
         services.TryAddTransient<IConnectService, ConnectService>();
-        services.TryAddTransient<IRepositoryService,RepositoryService>();
+        services.TryAddTransient<IRepositoryService, RepositoryService>();
+    }
+
+    private static void AddContainerRegistryClient(this IServiceCollection services)
+    {
+        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.TryAddTransient<GitHubClient>();
+        services.TryAddTransient<AuthorizationDelegatingHandler>();
+        services.AddHttpClient("GitHub", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri("https://api.github.com/");
+                httpClient.DefaultRequestHeaders.Add(
+                    HeaderNames.Accept, "application/vnd.github.v3+json");
+                httpClient.DefaultRequestHeaders.Add(
+                    HeaderNames.UserAgent, "Registry");
+            })
+            .AddHttpMessageHandler<AuthorizationDelegatingHandler>();
     }
 }
