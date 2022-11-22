@@ -18,4 +18,11 @@
       <ProjectReference Include="..\ContainerRegistry.Database.PostgreSql\ContainerRegistry.Database.PostgreSql.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app.tsx" />
+      <TypeScriptCompile Include="ClientApp\src\index.tsx" />
+    </ItemGroup>
+
+  
+
 </Project>

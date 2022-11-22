@@ -52,7 +52,7 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     username = table.Column<string>(name: "user_name", type: "text", nullable: false),
                     usersecret = table.Column<string>(name: "user_secret", type: "text", nullable: true),
-                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: false),
+                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: true),
                     useravatar = table.Column<string>(name: "user_avatar", type: "text", nullable: false),
                     usertoken = table.Column<string>(name: "user_token", type: "text", nullable: false),
                     userrefresh = table.Column<string>(name: "user_refresh", type: "text", nullable: true),
@@ -75,6 +75,7 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                     repositorydownloads = table.Column<long>(name: "repository_downloads", type: "bigint", nullable: false),
                     organizationid = table.Column<int>(name: "organization_id", type: "integer", nullable: false),
                     repositorytypeid = table.Column<int>(name: "repository_type_id", type: "integer", nullable: false),
+                    Visible = table.Column<int>(type: "integer", nullable: false),
                     repositorycreated = table.Column<DateTime>(name: "repository_created", type: "timestamp with time zone", nullable: false),
                     repositoryupdated = table.Column<DateTime>(name: "repository_updated", type: "timestamp with time zone", nullable: false)
                 },
@@ -120,6 +121,27 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "repository_accesses",
+                columns: table => new
+                {
+                    accessid = table.Column<int>(name: "access_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    memberid = table.Column<int>(name: "member_id", type: "integer", nullable: false),
+                    repositoryid = table.Column<int>(name: "repository_id", type: "integer", nullable: false),
+                    action = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_repository_accesses", x => x.accessid);
+                    table.ForeignKey(
+                        name: "FK_repository_accesses_repositories_repository_id",
+                        column: x => x.repositoryid,
+                        principalTable: "repositories",
+                        principalColumn: "repository_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "repository_tags",
                 columns: table => new
                 {
@@ -156,6 +178,11 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_repository_accesses_repository_id",
+                table: "repository_accesses",
+                column: "repository_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_repository_tags_repository_id",
                 table: "repository_tags",
                 column: "repository_id");
@@ -166,6 +193,9 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
         {
             migrationBuilder.DropTable(
                 name: "organization_members");
+
+            migrationBuilder.DropTable(
+                name: "repository_accesses");
 
             migrationBuilder.DropTable(
                 name: "repository_tags");

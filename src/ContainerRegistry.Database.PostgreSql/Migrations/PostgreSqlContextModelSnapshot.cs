@@ -17,7 +17,7 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc.2.22472.11")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -126,6 +126,9 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("repository_updated");
 
+                    b.Property<int>("Visible")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizationId");
@@ -134,6 +137,34 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                         .IsUnique();
 
                     b.ToTable("repositories", (string)null);
+                });
+
+            modelBuilder.Entity("ContainerRegistry.Core.Entities.RepositoryAccess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("access_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Action")
+                        .HasColumnType("integer")
+                        .HasColumnName("action");
+
+                    b.Property<int>("MemberId")
+                        .HasColumnType("integer")
+                        .HasColumnName("member_id");
+
+                    b.Property<int>("RepositoryId")
+                        .HasColumnType("integer")
+                        .HasColumnName("repository_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RepositoryId");
+
+                    b.ToTable("repository_accesses", (string)null);
                 });
 
             modelBuilder.Entity("ContainerRegistry.Core.Entities.RepositoryTag", b =>
@@ -199,7 +230,6 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                         .HasColumnName("user_created");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("user_email");
 
@@ -272,6 +302,17 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
                     b.Navigation("Type");
                 });
 
+            modelBuilder.Entity("ContainerRegistry.Core.Entities.RepositoryAccess", b =>
+                {
+                    b.HasOne("ContainerRegistry.Core.Entities.Repository", "Repository")
+                        .WithMany("Accesses")
+                        .HasForeignKey("RepositoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Repository");
+                });
+
             modelBuilder.Entity("ContainerRegistry.Core.Entities.RepositoryTag", b =>
                 {
                     b.HasOne("ContainerRegistry.Core.Entities.Repository", "Repository")
@@ -292,6 +333,8 @@ namespace ContainerRegistry.Database.PostgreSql.Migrations
 
             modelBuilder.Entity("ContainerRegistry.Core.Entities.Repository", b =>
                 {
+                    b.Navigation("Accesses");
+
                     b.Navigation("Tags");
                 });
 

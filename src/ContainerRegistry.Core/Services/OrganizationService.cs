@@ -39,4 +39,9 @@ public class OrganizationService : IOrganizationService
         var result = await _context.SaveChangesAsync(cancellationToken);
         return result > 0;
     }
+
+    public ValueTask<bool> UpdateAsync(Organization organization, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }

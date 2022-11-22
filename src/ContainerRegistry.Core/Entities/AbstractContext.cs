@@ -103,7 +103,8 @@ public abstract class AbstractContext<TContext> : DbContext, IContext where TCon
             .IsRequired(false);
 
         builder.Property(u => u.Email)
-            .HasColumnName("user_email");
+            .HasColumnName("user_email")
+            .IsRequired(false);;
 
         builder.Property(u => u.Avatar)
             .HasColumnName("user_avatar");
