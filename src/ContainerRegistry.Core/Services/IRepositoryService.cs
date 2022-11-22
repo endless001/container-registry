@@ -7,4 +7,5 @@ public interface IRepositoryService
 {
     Task<PaginatedItems<Repository>> GetAsync(int organizationId, int pageSize, int pageIndex);
     ValueTask<bool> AllowAccessAsync(string account, Scope scope);
+    ValueTask AddDownloadAsync();
 }

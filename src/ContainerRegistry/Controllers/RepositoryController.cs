@@ -28,4 +28,9 @@ public class RepositoryController : ControllerBase
         var result = await _repositoryService.GetAsync(organizationId, pageSize, pageIndex);
         return Ok(result);
     }
+
+    public Task<IActionResult> AddDownloadAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

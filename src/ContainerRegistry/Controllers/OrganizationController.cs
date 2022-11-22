@@ -47,4 +47,17 @@ public class OrganizationController : ControllerBase
     {
         throw new NotImplementedException();
     }
+    
+
+    [HttpGet("/member")]
+    public async Task<IActionResult> GetMemberAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpPost("/member")]
+    public async Task<IActionResult> AddMemberAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

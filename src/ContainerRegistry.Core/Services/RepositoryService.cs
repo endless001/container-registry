@@ -1,4 +1,5 @@
 using ContainerRegistry.Core.Entities;
+using ContainerRegistry.Core.Enums;
 using ContainerRegistry.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,11 +36,16 @@ public class RepositoryService : IRepositoryService
             .Include(x => x.Accesses).FirstOrDefaultAsync(r =>
                 r.Name == scope.RepositoryName && r.Organization.Namespace == scope.Namespace);
 
-        if (repository.Visible == 1 && scope.Action.Equals("pull", StringComparison.OrdinalIgnoreCase))
+        if (repository.Visible == (int)VisibleType.Publish && scope.Action == ActionType.Pull)
         {
             return true;
         }
 
-        return repository.Accesses.Any(x => x.MemberId == 1 && x.Action == 1);
+        return repository.Accesses.Any(x => x.MemberId == 1 && x.Action == (int)scope.Action);
+    }
+
+    public ValueTask AddDownloadAsync()
+    {
+        throw new NotImplementedException();
     }
 }

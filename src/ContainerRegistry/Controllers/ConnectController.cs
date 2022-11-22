@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using ContainerRegistry.Core.Enums;
 using ContainerRegistry.Core.Models;
 using ContainerRegistry.Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -52,8 +53,9 @@ public class ConnectController : ControllerBase
             {
                 Type = scopes[0],
                 RepositoryName = scopes[1],
-                Action = scopes[2]
+                Action = Enum.Parse<ActionType>(scopes[2])
             };
+
             var allowAccess = await _repositoryService.AllowAccessAsync(account, scope);
             if (!allowAccess)
             {
