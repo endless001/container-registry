@@ -20,7 +20,7 @@ public class RepositoryController : ControllerBase
     }
 
     [HttpGet("{organizationId:int}")]
-    [ProducesResponseType(typeof(PaginatedItems<Repository>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(PagedList<Repository>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> GetAsync(int organizationId, [FromQuery] int pageSize = 10,
         [FromQuery] int pageIndex = 0)

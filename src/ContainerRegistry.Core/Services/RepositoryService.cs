@@ -14,7 +14,7 @@ public class RepositoryService : IRepositoryService
         _context = context;
     }
 
-    public async Task<PaginatedItems<Repository>> GetAsync(int organizationId, int pageSize, int pageIndex)
+    public async Task<PagedList<Repository>> GetAsync(int organizationId, int pageSize, int pageIndex)
     {
         var totalItems = await _context.Repositories
             .LongCountAsync();
@@ -25,7 +25,7 @@ public class RepositoryService : IRepositoryService
             .Take(pageSize)
             .ToListAsync();
 
-        var model = new PaginatedItems<Repository>(pageIndex, pageSize, totalItems, itemsOnPage);
+        var model = new PagedList<Repository>(pageIndex, pageSize, totalItems, itemsOnPage);
         return model;
     }
 

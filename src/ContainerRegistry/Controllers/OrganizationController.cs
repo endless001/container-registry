@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ContainerRegistry.Controllers;
 
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 [Authorize]
 public class OrganizationController : ControllerBase
@@ -21,7 +21,7 @@ public class OrganizationController : ControllerBase
     }
 
     [HttpGet("{namespace}")]
-    [ProducesResponseType(typeof(PaginatedItems<Organization>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(PagedList<Organization>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> GetAsync(string @namespace, [FromQuery] int pageSize = 10,
         [FromQuery] int pageIndex = 0)
@@ -47,16 +47,24 @@ public class OrganizationController : ControllerBase
     {
         throw new NotImplementedException();
     }
-    
 
-    [HttpGet("/member")]
-    public async Task<IActionResult> GetMemberAsync()
+    [HttpGet("/member/{namespace}")]
+    [ProducesResponseType(typeof(IEnumerable<MemberResponse>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> GetMemberAsync(string @namespace, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var organization = await _organizationService.GetAsync(@namespace, cancellationToken);
+        if (organization is null)
+        {
+            return NotFound();
+        }
+
+        var members = await _organizationService.GetMemberAsync(organization.Id, cancellationToken);
+        return Ok(members);
     }
 
     [HttpPost("/member")]
-    public async Task<IActionResult> AddMemberAsync()
+    public async Task<IActionResult> AddMemberAsync(CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

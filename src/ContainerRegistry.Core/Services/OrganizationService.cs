@@ -18,19 +18,14 @@ public class OrganizationService : IOrganizationService
         return await _context.Organizations.Where(o => o.Namespace == @namespace).AnyAsync(cancellationToken);
     }
 
-    public async Task<PaginatedItems<Organization>> GetAsync(string @namespace, int pageSize, int pageIndex)
+    public async Task<OrganizationResponse> GetAsync(string @namespace, CancellationToken cancellationToken)
     {
-        var totalItems = await _context.Organizations
-            .LongCountAsync();
+        return null;
+    }
 
-        var itemsOnPage = await _context.Organizations
-            .OrderBy(c => c.Name)
-            .Skip(pageSize * pageIndex)
-            .Take(pageSize)
-            .ToListAsync();
-
-        var model = new PaginatedItems<Organization>(pageIndex, pageSize, totalItems, itemsOnPage);
-        return model;
+    public async Task<PagedList<OrganizationResponse>> GetAsync(string @namespace, int pageSize, int pageIndex)
+    {
+        throw new NotImplementedException();
     }
 
     public async ValueTask<bool> CreateAsync(Organization organization, CancellationToken cancellationToken)
@@ -43,5 +38,20 @@ public class OrganizationService : IOrganizationService
     public ValueTask<bool> UpdateAsync(Organization organization, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<List<MemberResponse>> GetMemberAsync(int id, CancellationToken cancellationToken)
+    {
+        var members = await _context.OrganizationMembers
+            .Include(x => x.User)
+            .Where(x => x.OrganizationId == id)
+            .ToListAsync(cancellationToken);
+
+        var result = members.Select(x => new MemberResponse
+        {
+            MemberId = x.MemberId,
+            MemberName = x.User.UserName
+        }).ToList();
+        return result;
     }
 }
