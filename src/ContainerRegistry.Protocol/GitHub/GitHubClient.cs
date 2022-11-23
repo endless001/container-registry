@@ -6,7 +6,7 @@ namespace ContainerRegistry.Protocol.GitHub;
 public class GitHubClient
 {
     private readonly IHttpClientFactory _httpClientFactory;
-
+    
     public GitHubClient(IHttpClientFactory httpClientFactory) =>
         _httpClientFactory = httpClientFactory;
 

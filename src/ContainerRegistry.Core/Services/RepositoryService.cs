@@ -40,8 +40,10 @@ public class RepositoryService : IRepositoryService
         {
             return true;
         }
-
-        return repository.Accesses.Any(x => x.MemberId == 1 && x.Action == (int)scope.Action);
+        
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == account);
+        return repository.Accesses.Where(x => x.MemberId == user?.Id)
+            .Any(x => x.Action == (int)scope.Action || x.Action == (int)ActionType.All);
     }
 
     public ValueTask AddDownloadAsync()

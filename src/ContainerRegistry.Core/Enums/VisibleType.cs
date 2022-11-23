@@ -3,5 +3,5 @@
 public enum VisibleType
 {
     Publish = 1,
-    Private = 2,
+    Private = 2, 
 }
