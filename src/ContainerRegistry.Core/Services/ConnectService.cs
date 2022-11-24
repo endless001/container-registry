@@ -11,6 +11,7 @@ namespace ContainerRegistry.Core.Services;
 public class ConnectService : IConnectService
 {
     private readonly JwtBearerOptions _options;
+
     public ConnectService(IOptionsSnapshot<JwtBearerOptions> options)
     {
         _options = options.Value;
@@ -20,12 +21,8 @@ public class ConnectService : IConnectService
     {
         var issuer = _options.Issuer;
         var signKey = _options.SignKey;
-        var claims = new[]
-        {
-            new Claim("email", "1319822160@qq.com")
-        };
 
-        var claimsIdentity = new ClaimsIdentity(claims);
+        var claimsIdentity = new ClaimsIdentity();
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signKey));
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var tokenDescriptor = new SecurityTokenDescriptor

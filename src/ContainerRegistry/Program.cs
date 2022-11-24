@@ -1,5 +1,4 @@
 using System.Text;
-using ContainerRegistry;
 using ContainerRegistry.Aliyun;
 using Microsoft.IdentityModel.Tokens;
 using ContainerRegistry.Core.Configuration;

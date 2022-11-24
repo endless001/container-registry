@@ -1,4 +1,4 @@
-namespace ContainerRegistry;
+﻿namespace ContainerRegistry.Core.Configuration;
 
 public class GitHubAuthenticationOptions
 {

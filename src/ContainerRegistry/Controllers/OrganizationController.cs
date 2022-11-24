@@ -48,7 +48,7 @@ public class OrganizationController : ControllerBase
         throw new NotImplementedException();
     }
 
-    [HttpGet("/member/{namespace}")]
+    [HttpGet("{namespace}/member")]
     [ProducesResponseType(typeof(IEnumerable<MemberResponse>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> GetMemberAsync(string @namespace, CancellationToken cancellationToken)
@@ -63,8 +63,8 @@ public class OrganizationController : ControllerBase
         return Ok(members);
     }
 
-    [HttpPost("/member")]
-    public async Task<IActionResult> AddMemberAsync(CancellationToken cancellationToken)
+    [HttpPost("{namespace}/member")]
+    public async Task<IActionResult> AddMemberAsync(string @namespace,CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

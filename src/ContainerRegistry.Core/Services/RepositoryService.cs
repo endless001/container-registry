@@ -14,19 +14,14 @@ public class RepositoryService : IRepositoryService
         _context = context;
     }
 
-    public async Task<PagedList<Repository>> GetAsync(int organizationId, int pageSize, int pageIndex)
+    public async Task<PagedList<RepositoryResponse>> GetAsync(int organizationId, int pageSize, int pageIndex)
     {
-        var totalItems = await _context.Repositories
-            .LongCountAsync();
+        throw new NotImplementedException();
+    }
 
-        var itemsOnPage = await _context.Repositories
-            .OrderBy(c => c.Name)
-            .Skip(pageSize * pageIndex)
-            .Take(pageSize)
-            .ToListAsync();
-
-        var model = new PagedList<Repository>(pageIndex, pageSize, totalItems, itemsOnPage);
-        return model;
+    public Task<RepositoryResponse> GetAsync(int organizationId, string repository)
+    {
+        throw new NotImplementedException();
     }
 
     public async ValueTask<bool> AllowAccessAsync(string account, Scope scope)
@@ -40,7 +35,7 @@ public class RepositoryService : IRepositoryService
         {
             return true;
         }
-        
+
         var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == account);
         return repository.Accesses.Where(x => x.MemberId == user?.Id)
             .Any(x => x.Action == (int)scope.Action || x.Action == (int)ActionType.All);
