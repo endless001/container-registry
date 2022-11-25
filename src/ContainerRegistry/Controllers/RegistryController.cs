@@ -10,6 +10,7 @@ namespace ContainerRegistry.Controllers;
 public class RegistryController : ControllerBase
 {
     private readonly IRegistryStorageService _registryStorage;
+
     public RegistryController(IRegistryStorageService registryStorage)
     {
         _registryStorage = registryStorage;
@@ -55,7 +56,7 @@ public class RegistryController : ControllerBase
     [HttpHead("{name}/manifests/{reference}")]
     public async Task<IActionResult> HeadManifest(string name, string reference, CancellationToken cancellationToken)
     {
- 
+
         throw new NotImplementedException();
     }
 

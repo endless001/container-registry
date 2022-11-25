@@ -1,5 +1,7 @@
 using ContainerRegistry.Core.Entities;
 using ContainerRegistry.Core.Enums;
+using ContainerRegistry.Core.Extensions;
+using ContainerRegistry.Core.Mappers;
 using ContainerRegistry.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,14 +16,26 @@ public class RepositoryService : IRepositoryService
         _context = context;
     }
 
-    public async Task<PagedList<RepositoryResponse>> GetAsync(int organizationId, int pageSize, int pageIndex)
+    public async Task<PagedList<RepositoryResponse>> GetAsync(string @namespace, int pageSize, int pageIndex)
     {
-        throw new NotImplementedException();
+        var repositories = await _context.Repositories
+            .Include(x => x.Organization)
+            .Where(x => x.Organization.Namespace == @namespace)
+            .PageBy(x => x.Id, pageIndex, pageSize).ToListAsync();
+        var totalCount = await _context.Repositories.LongCountAsync();
+
+        var result = new PagedList<RepositoryResponse>(pageIndex, pageSize, totalCount,
+            repositories.ToRepositoryModel<List<RepositoryResponse>>());
+        return result;
     }
 
-    public Task<RepositoryResponse> GetAsync(int organizationId, string repository)
+    public async Task<RepositoryResponse> GetAsync(string @namespace, string name)
     {
-        throw new NotImplementedException();
+        var repository = await _context.Repositories
+            .Include(x => x.Organization)
+            .Where(x => x.Organization.Namespace == @namespace && x.Name == name).FirstOrDefaultAsync();
+        
+        return repository.ToRepositoryModel<RepositoryResponse>();
     }
 
     public async ValueTask<bool> AllowAccessAsync(string account, Scope scope)

@@ -1,4 +1,5 @@
 using ContainerRegistry.Core.Configuration;
+using ContainerRegistry.Core.Mappers;
 using ContainerRegistry.Core.Services;
 using ContainerRegistry.Core.Storage;
 using ContainerRegistry.Protocol;
@@ -24,6 +25,7 @@ public static partial class DependencyInjectionExtensions
         var builder = services.AddContainerRegistryBuilder();
         services.AddContainerRegistryServices();
         services.AddContainerRegistryClient();
+        services.AddContainerRegistryMapper();
         services.AddConfiguration();
         return builder;
     }
@@ -77,5 +79,10 @@ public static partial class DependencyInjectionExtensions
                     HeaderNames.UserAgent, "Registry");
             })
             .AddHttpMessageHandler<AuthorizationDelegatingHandler>();
+    }
+    
+    private static void AddContainerRegistryMapper(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(OrganizationMapperProfile));
     }
 }

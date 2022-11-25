@@ -1,4 +1,6 @@
 ﻿using ContainerRegistry.Core.Entities;
+using ContainerRegistry.Core.Extensions;
+using ContainerRegistry.Core.Mappers;
 using ContainerRegistry.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,9 +25,16 @@ public class OrganizationService : IOrganizationService
         return null;
     }
 
-    public async Task<PagedList<OrganizationResponse>> GetAsync(string @namespace, int pageSize, int pageIndex)
+    public async Task<PagedList<OrganizationResponse>> GetAsync(int pageSize, int pageIndex)
     {
-        throw new NotImplementedException();
+        var organizations = await _context.Organizations
+            .Include(x=>x.OrganizationMembers)
+            .PageBy(x => x.Id, pageIndex, pageSize).ToListAsync();
+        var totalCount = await _context.Organizations.LongCountAsync();
+
+        var result = new PagedList<OrganizationResponse>(pageIndex, pageSize, totalCount,
+            organizations.ToOrganizationModel<List<OrganizationResponse>>());
+        return result;
     }
 
     public async ValueTask<bool> CreateAsync(Organization organization, CancellationToken cancellationToken)
@@ -40,11 +49,12 @@ public class OrganizationService : IOrganizationService
         throw new NotImplementedException();
     }
 
-    public async Task<List<MemberResponse>> GetMemberAsync(int id, CancellationToken cancellationToken)
+    public async Task<List<MemberResponse>> GetMemberAsync(string @namespace, CancellationToken cancellationToken)
     {
         var members = await _context.OrganizationMembers
             .Include(x => x.User)
-            .Where(x => x.OrganizationId == id)
+            .Include(x => x.Organization)
+            .Where(x => x.Organization.Namespace == @namespace)
             .ToListAsync(cancellationToken);
 
         var result = members.Select(x => new MemberResponse

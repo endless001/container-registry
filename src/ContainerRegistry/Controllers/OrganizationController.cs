@@ -10,7 +10,6 @@ namespace ContainerRegistry.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class OrganizationController : ControllerBase
 {
     private readonly IOrganizationService _organizationService;
@@ -20,13 +19,13 @@ public class OrganizationController : ControllerBase
         _organizationService = organizationService;
     }
 
-    [HttpGet("{namespace}")]
-    [ProducesResponseType(typeof(PagedList<Organization>), (int)HttpStatusCode.OK)]
+    [HttpGet]
+    [ProducesResponseType(typeof(PagedList<OrganizationResponse>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> GetAsync(string @namespace, [FromQuery] int pageSize = 10,
+    public async Task<IActionResult> GetAsync([FromQuery] int pageSize = 10,
         [FromQuery] int pageIndex = 0)
     {
-        var result = await _organizationService.GetAsync(@namespace, pageSize, pageIndex);
+        var result = await _organizationService.GetAsync(pageSize, pageIndex);
         return Ok(result);
     }
 
@@ -53,13 +52,7 @@ public class OrganizationController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> GetMemberAsync(string @namespace, CancellationToken cancellationToken)
     {
-        var organization = await _organizationService.GetAsync(@namespace, cancellationToken);
-        if (organization is null)
-        {
-            return NotFound();
-        }
-
-        var members = await _organizationService.GetMemberAsync(organization.Id, cancellationToken);
+        var members = await _organizationService.GetMemberAsync(@namespace, cancellationToken);
         return Ok(members);
     }
 

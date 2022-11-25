@@ -8,7 +8,6 @@ namespace ContainerRegistry.Controllers;
 
 [Route("api/v1/[controller]/{namespace}")]
 [ApiController]
-[Authorize]
 public class RepositoryController : ControllerBase
 {
     private readonly IRepositoryService _repositoryService;
@@ -24,34 +23,22 @@ public class RepositoryController : ControllerBase
     [HttpGet("")]
     [ProducesResponseType(typeof(PagedList<RepositoryResponse>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> GetAsync(string @namespace, CancellationToken cancellationToken,
         [FromQuery] int pageSize = 10,
         [FromQuery] int pageIndex = 0)
     {
-        var organization = await _organizationService.GetAsync(@namespace, cancellationToken);
-        if (organization is null)
-        {
-            return NotFound();
-        }
-
-        var result = await _repositoryService.GetAsync(organization.Id, pageSize, pageIndex);
+        var result = await _repositoryService.GetAsync(@namespace, pageSize, pageIndex);
         return Ok(result);
     }
 
-    [HttpGet("{repository}")]
+    [HttpGet("{name}")]
     [ProducesResponseType(typeof(RepositoryResponse), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetAsync(string @namespace, string repository, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAsync(string @namespace, string name, CancellationToken cancellationToken)
     {
-        var organization = await _organizationService.GetAsync(@namespace, cancellationToken);
-        if (organization is null)
-        {
-            return NotFound();
-        }
 
-        var result = await _repositoryService.GetAsync(organization.Id, repository);
+        var result = await _repositoryService.GetAsync(@namespace, name);
         if (result is null)
         {
             return NotFound();
@@ -61,14 +48,14 @@ public class RepositoryController : ControllerBase
     }
 
 
-    [HttpGet("{repository}/tags")]
-    public Task<IActionResult> GetTagsAsync(string @namespace, string repository)
+    [HttpGet("{name}/tag")]
+    public Task<IActionResult> GetTagAsync(string @namespace, string name)
     {
         throw new NotImplementedException();
     }
 
-    [HttpGet("{repository}/tags/{version}")]
-    public Task<IActionResult> GetTagsAsync(string @namespace, string repository, string version)
+    [HttpGet("{name}/tag/{version}")]
+    public Task<IActionResult> GetTagAsync(string @namespace, string name, string version)
     {
         throw new NotImplementedException();
     }
